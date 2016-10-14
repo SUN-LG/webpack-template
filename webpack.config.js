@@ -1,6 +1,8 @@
 var webpack = require('webpack');
 var BellOnBundleErrorPlugin = require('bell-on-bundler-error-plugin');
 
+var def
+
 module.exports = {
     //入口模块
 
@@ -28,21 +30,42 @@ module.exports = {
             filename: '[name].js'
         }*/
     },
+
+    //require时可以省略扩展名，此时需要resolve.extensions配置
+    {
+        resolve: {
+            // 现在你require文件的时候可以直接使用require('file')，不用使用require('file.js')
+            extensions: ['', '.js', '.json', 'coffee']
+        }
+    },
+
     //配置模块和插件
     module: {
         //加载loader模块
-        loaders: [{
-            test: /\.jsx?$/, //对匹配的文件进行处理
-            exclude: /node_modules/, //排除某些文件或目录
-            loader: 'babel', //匹配到的资源会应用 loader， loader 可以为 string 也可以为数组
-            query: { //loader 可以配置参数
-                presets: ['es2015', 'stage-0', 'react']
+        loaders: [
+            {
+                test: /\.jsx?$/, //对匹配的文件进行处理
+                exclude: /node_modules/, //排除某些文件或目录
+                loader: 'babel', //匹配到的资源会应用 loader， loader 可以为 string 也可以为数组
+                query: { //loader 可以配置参数
+                    presets: ['es2015', 'stage-0', 'react']
+                }
+            },
+            //less-loader
+            {
+                test: /\.less$/,
+                loader: 'style-loader!css-loader!less-loader',//使用！链式调用loaders
+            },
+            //sass-loader
+            {
+                test: /\.scss$/,
+                loader: 'style-loader!css-loader!sass-loader',//使用！链式调用loaders
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
             }
-        },
-        {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-        }]
+        ]
     },
     plugins: [
         new BellOnBundleErrorPlugin(),
