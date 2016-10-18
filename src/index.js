@@ -14,3 +14,8 @@ ReactDOM.render(
     <Hello name="World" />,
     document.getElementById('AppRoot')
 );
+
+require.ensure(['./a'], function(require) {
+    var content = require('./a');
+    document.getElementById('AppRoot').innerHTML = content;
+});
