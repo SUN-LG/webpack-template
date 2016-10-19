@@ -1,6 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+require('./style.less');
+
 
 var Hello = React.createClass({
     render: function() {
